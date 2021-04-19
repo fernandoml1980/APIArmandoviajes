@@ -14,4 +14,4 @@ const customerSchema=new mongoose.Schema({ /*datos del documento clientes*/
     tipo_servicio:{type:String, required:true}
 })
 
-module.exports=mongoose.model('clientes',customerSchema) //cliente es el nombre como se puede ver la funcion en todo el proyecto
+module.exports=mongoose.model('clientes',customerSchema) //clientes es el nombre del documemto

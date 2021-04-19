@@ -16,6 +16,9 @@ api.get('/Listar/Todos',CustomerController.GetAllCustomers)
 
 api.get('/Buscar/:correo',CustomerController.SearchCustomer)
 
+api.post('/login',CustomerController.Login)
+api.post('/Registro',CustomerController.Registro)
+
 module.exports=api;
 
 
