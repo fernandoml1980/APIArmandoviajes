@@ -68,9 +68,9 @@ function Create(req, res) { //cargar los atributos del objeto con los datos
                 const mailOptions = {
                     from: 'fernandoml1980@gmail.com ',
                     to: 'fernandoml1980@hotmail.com',
-                    subject: 'Nueva Solicitud Armandoviajes',
+                    subject: 'Solicitud Armandoviajes',
                     html:
-                        'Nueva Solicitud de : <br>Nombres:  ' + nombres + '<br>Telefono: ' + telefono + '<br>Correo:  ' + correo
+                        'Datos : <br>Nombres:  ' + nombres + '<br>Telefono: ' + telefono + '<br>Correo:  ' + correo
                 };
 
                 transporter.sendMail(mailOptions, (err, info) => {
