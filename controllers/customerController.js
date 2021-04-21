@@ -52,34 +52,38 @@ function Create(req, res) { //cargar los atributos del objeto con los datos
                     statusCode: 200,
                     message: 'Datos Enviados con exito a db',
                     dataUser: customerCreated
-                })
+                }
+
+                )
+
+                // enviar correo de confirmacion
+                var transporter = nodemailer.createTransport({
+                    service: 'gmail',
+                    auth: {
+                        user: 'fernandoml1980@gmail.com',
+                        pass: 'enjxfnnnivsjueyg' // Contraseñas de aplicaciones
+                    }
+                });
+
+                const mailOptions = {
+                    from: 'fernandoml1980@gmail.com ',
+                    to: 'fernandoml1980@hotmail.com',
+                    subject: 'Nueva Solicitud Armandoviajes',
+                    html:
+                        'Nueva Solicitud de : <br>Nombres:  ' + nombres + '<br>Telefono: ' + telefono + '<br>Correo:  ' + correo
+                };
+
+                transporter.sendMail(mailOptions, (err, info) => {
+                    if (err)
+                        console.log(err)
+                    else
+                        console.log(info);
+                });
             }
         }
     })
 
-    // enviar correo de confirmacion
-    var transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-            user: 'fernandoml1980@gmail.com',
-            pass: 'enjxfnnnivsjueyg' // Contraseñas de aplicaciones
-        }
-    });
 
-    const mailOptions = {
-        from: 'fernandoml1980@gmail.com ',
-        to: 'fernandoml1980@hotmail.com',
-        subject: 'Nueva Solicitud Armandoviajes',
-        html:
-            'Nueva Solicitud de : <br>Nombres:  ' + nombres + '<br>Telefono: ' + telefono + '<br>Correo:  ' + correo
-    };
-
-    transporter.sendMail(mailOptions, (err, info) => {
-        if (err)
-            console.log(err)
-        else
-            console.log(info);
-    });
 }
 
 function Update(req, res) {
@@ -206,15 +210,15 @@ function Login(req, res, next) {
                     message: 'Algo salio mal usuario :(',
                 });
             } else {
-                const resultPassword = bcrypt.compareSync(datos.clave,user.clave); //compara la clave enviada por el forn con la encriptada de la bd
+                const resultPassword = bcrypt.compareSync(datos.clave, user.clave); //compara la clave enviada por el forn con la encriptada de la bd
                 if (resultPassword) {
                     const expiresIn = 24 * 60 * 60;
                     const accesstoken = jwt.sign({ id: user.id }, SecretKey, { expiresIn: expiresIn });
-                    
-                    const dataUser={
-                        usuario:user.usuario,
-                        accesstoken:accesstoken,
-                        expiresIn:expiresIn
+
+                    const dataUser = {
+                        usuario: user.usuario,
+                        accesstoken: accesstoken,
+                        expiresIn: expiresIn
                     }
                     res.send({ dataUser });
                 } else { //password mal
@@ -239,14 +243,14 @@ function Registro(req, res, next) {
 
     nuevoRegistro.save((error, registro) => {
 
-        if (error && error.code === 11000){
+        if (error && error.code === 11000) {
             return res.status(400).send({
-                message:'el usuario ya existe'
+                message: 'el usuario ya existe'
             })
         }
 
         if (error) {
-            
+
             return res.status(500).send({
                 statusCode: 500,
                 message: 'Error en el Servidor',
@@ -269,10 +273,10 @@ function Registro(req, res, next) {
 
                 });
 
-                const dataUser={
-                    usuario:registro.usuario,
-                    accessToken:accessToken,
-                    expiresIn:expiresIn
+                const dataUser = {
+                    usuario: registro.usuario,
+                    accessToken: accessToken,
+                    expiresIn: expiresIn
                 }
 
                 res.send({ dataUser })
